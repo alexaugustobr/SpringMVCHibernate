@@ -1,0 +1,13 @@
+CREATE DATABASE TestDB;
+
+CREATE USER 'cartoriosuser' IDENTIFIED BY 'cartoriospass';
+
+GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP ON TestDB.* TO 'cartoriosuser';
+
+USE TestDB;
+
+CREATE TABLE `Cartorio` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(20) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
