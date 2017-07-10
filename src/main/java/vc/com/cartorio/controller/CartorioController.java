@@ -96,7 +96,7 @@ public class CartorioController {
 			List<ObjectError> erros = result.getAllErrors();
 			List<FieldError> fieldErrors = result.getFieldErrors();
 			List<String> mensagemerros = new ArrayList<String>();
-			List<String> camposerros = new ArrayList<String>();
+			List<String> campoerros = new ArrayList<String>();
 //			for (ObjectError objectError : erros) {
 //				mensagemerros.add(objectError.getDefaultMessage());
 //			}
@@ -104,11 +104,11 @@ public class CartorioController {
 				System.out.println(fieldError.getDefaultMessage());
 				System.out.println(fieldError.getField());
 				mensagemerros.add(fieldError.getField());
-				mensagemerros.add(fieldError.getDefaultMessage());
+				campoerros.add(fieldError.getDefaultMessage());
 			}
 			model.addAttribute("cartorios", listaCartoriosDTO.getCartorios());
 			model.addAttribute("mensagemerros", mensagemerros);
-			model.addAttribute("camposerros", camposerros);
+			model.addAttribute("campoerros", campoerros);
 			return "editarTodos";
 		}
 		for (Cartorio c : listaCartoriosDTO.getCartorios()) {
