@@ -1,4 +1,4 @@
-package vc.com.cartorio;
+package vc.com.cartorio.controller.rest;
 
 import java.util.List;
 
