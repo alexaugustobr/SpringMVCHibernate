@@ -1,31 +1,26 @@
 package vc.com.cartorio;
 
-import org.hibernate.Session;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import vc.com.cartorio.dao.CartorioDAO;
-import vc.com.cartorio.dao.CartorioDAOImpl;
-import vc.com.cartorio.model.Cartorio;
+import vc.com.cartorio.domain.Cartorio;
 import vc.com.cartorio.service.CartorioService;
-import vc.com.cartorio.service.CartorioServiceImpl;
 
 @Controller
 public class MainController {
-
+	@Autowired
 	private CartorioService cartorioService;
-
-	@Autowired(required = true)
-	@Qualifier(value = "cartorioService")
-	public void setCartorioService(CartorioService cs) {
-		this.cartorioService = cs;
-	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String listarCartorios(Model model) {
@@ -43,22 +38,25 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
-	public String salvarCartorio(Model model, @ModelAttribute("cartorio") Cartorio c) {
-		if (c.getNome().equals("") || c.getNome().equals(null)) {
-			model.addAttribute("mensagemerro", "Nome não pode estar em branco!");
-			return "cadastro";
-		} else {
-			if (c.getId() == 0) {
-				System.out.println("novo");
-				this.cartorioService.adicionarCartorio(c);
-			} else {
-				System.out.println("salvando");
-				this.cartorioService.atualizarCartorio(c);
+	public String salvarCartorio( @Valid Cartorio cartorio, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			List<ObjectError> erros= result.getAllErrors();
+			List<String> mensagemerros = new ArrayList<String>();
+			for (ObjectError objectError : erros) {
+				mensagemerros.add(objectError.getDefaultMessage());
 			}
-			model.addAttribute("cartorio", new Cartorio());
-			model.addAttribute("mensagem", "Cartório Salvo com sucesso!");
+			model.addAttribute("mensagemerros", mensagemerros);
 			return "cadastro";
 		}
+		if (cartorio.getId() == 0) {
+			cartorio.getEndereco().setCartorio(cartorio);
+			cartorio = cartorioService.adicionarCartorio(cartorio);
+		} else {
+			this.cartorioService.atualizarCartorio(cartorio);
+		}
+		model.addAttribute("cartorio", new Cartorio());
+		model.addAttribute("mensagem", "Cartório Salvo com sucesso!");
+		return "cadastro";
 	}
 
 	@RequestMapping("/remover/{id}")
@@ -80,5 +78,7 @@ public class MainController {
 		model.addAttribute("cartorio", this.cartorioService.getCartorioPorId(id));
 		return "cadastro";
 	}
+	
+	
 
 }

@@ -2,11 +2,11 @@ package vc.com.cartorio.service;
 
 import java.util.List;
 
-import vc.com.cartorio.model.Cartorio;
+import vc.com.cartorio.domain.Cartorio;
 
 public interface CartorioService {
 
-	public void adicionarCartorio(Cartorio c);
+	public Cartorio adicionarCartorio(Cartorio c);
 	public void atualizarCartorio(Cartorio c);
 	public List<Cartorio> listarCartorios();
 	public Cartorio getCartorioPorId(int id);
