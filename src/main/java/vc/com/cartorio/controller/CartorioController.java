@@ -32,6 +32,11 @@ public class CartorioController {
 		}
 		return "consulta";
 	}
+	
+	@RequestMapping(value = "/consulta-jquery", method = RequestMethod.GET)
+	public String listarCartoriosJquery(Model model) {
+		return "consultaJquery";
+	}
 
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.GET)
 	public String novoCartorio(Model model) {

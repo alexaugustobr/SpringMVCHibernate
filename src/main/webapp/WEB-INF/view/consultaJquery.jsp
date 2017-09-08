@@ -61,11 +61,46 @@
 
 		</div>
 	</div>
-
-
-
-
-
-
 </body>
+<script src="/assets/js/jquery-3.2.1.min.js"></script>
+
+<script>
+	function atualizarTable() {
+	
+// 	containerDiv.hide();
+	
+// 	tableBody.empty();
+	
+// 	salvarBtn.attr( "disabled", true);
+	
+	var resposta = $.ajax({
+		type: 'get',
+		url: '/cartorios'
+		//,
+// 		data: {
+// 			projetoId: projetoId
+// 		}
+	});
+	
+	resposta.done(function(data) {
+		console.log(data);
+// 			$.each(data, function(key, json) {
+// 				console.log(json.cartorio.endereco);
+// 			});
+	});
+// 	resposta.fail(function(tarefas) {
+// 		$('<p/>', {
+// 			text: 'Nenhuma tarefa para deploy neste projeto'
+// 		}).appendTo(container);
+		
+// 	});
+	}
+	
+	
+	$(document).ready(function() {
+		//var salvarBtn = $('#salvarBtn');
+		atualizarTable();
+		
+	});
+</script>
 </html>
