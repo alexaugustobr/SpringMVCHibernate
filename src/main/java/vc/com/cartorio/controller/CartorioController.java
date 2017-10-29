@@ -16,13 +16,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import vc.com.cartorio.domain.Cartorio;
+import vc.com.cartorio.domain.Endereco;
 import vc.com.cartorio.dto.ListaCartoriosDTO;
 import vc.com.cartorio.service.CartorioService;
+import vc.com.cartorio.service.EnderecoService;
 
 @Controller
 public class CartorioController {
 	@Autowired
 	private CartorioService cartorioService;
+	
+	@Autowired
+	private EnderecoService enderecoService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String listarCartorios(Model model) {
@@ -55,12 +60,18 @@ public class CartorioController {
 			model.addAttribute("mensagemerros", mensagemerros);
 			return "cadastro";
 		}
-		if (cartorio.getId() == 0) {
-			cartorio.getEndereco().setCartorio(cartorio);
-			cartorio = cartorioService.adicionarCartorio(cartorio);
-		} else {
-			this.cartorioService.atualizarCartorio(cartorio);
+		cartorio.setId(cartorioService.adicionarCartorio(cartorio).getId());
+		for (Endereco e : cartorio.getEnderecos()) {
+			if (e != null) {
+				e.setCartorio(cartorio);
+				enderecoService.adicionarEndereco(e);
+			}
+			if (e != null) {
+				e.setCartorio(cartorio);
+				enderecoService.adicionarEndereco(e);
+			}
 		}
+		
 		model.addAttribute("cartorio", new Cartorio());
 		model.addAttribute("mensagem", "Cartório Salvo com sucesso!");
 		return "cadastro";

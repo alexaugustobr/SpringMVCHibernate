@@ -63,30 +63,33 @@
 						<form:input cssClass="form-control col-sm-6" path="nome" />
 					</div>
 				</div>
-				<c:if test="${not empty cartorio.endereco.cartorio.id}">
+				<c:if test="${not empty cartorio.enderecos}">
+					<c:forEach items="${cartorio.enderecos}" var="endereco" varStatus="s">
+						<div class="form-group">
+							<label for="nome" class="col-sm-2 control-label">ID endereco cartorio</label>
+							<div class="col-sm-6">
+								<form:input cssClass="form-control col-sm-2" path="enderecos[${s.index}].id" readonly="true" size="8" disabled="true" />
+								<form:hidden path="enderecos[${s.index}].id" />
+								<form:input cssClass="form-control col-sm-2" path="enderecos[${s.index}].cartorio.id" readonly="true" size="8" disabled="true" />
+								<form:hidden path="enderecos[${s.index}].cartorio.id" />
+							</div>
+						</div>
+					</c:forEach>
+				</c:if>
+				<c:if test="${empty cartorio.enderecos}">
 					<div class="form-group">
-						<label for="nome" class="col-sm-2 control-label">ID endereco cartorio</label>
+						<label for="nome" class="col-sm-2 control-label">Rua</label>
 						<div class="col-sm-6">
-							<form:input cssClass="form-control col-sm-2" path="endereco.id" readonly="true" size="8" disabled="true" />
-							<form:hidden path="endereco.id" />
-							<form:input cssClass="form-control col-sm-2" path="endereco.cartorio.id" readonly="true" size="8" disabled="true" />
-							<form:hidden path="endereco.cartorio.id" />
+							<form:input cssClass="form-control col-sm-6" path="enderecos[0].rua" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="nome" class="col-sm-2 control-label">Numero</label>
+						<div class="col-sm-6">
+							<form:input cssErrorClass="has-error" cssClass="form-control col-sm-6" path="enderecos[0].numero" />
 						</div>
 					</div>
 				</c:if>
-				<div class="form-group">
-					<label for="nome" class="col-sm-2 control-label">Rua</label>
-					<div class="col-sm-6">
-						<form:input cssClass="form-control col-sm-6" path="endereco.rua" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="nome" class="col-sm-2 control-label">Numero</label>
-					<div class="col-sm-6">
-						<form:input cssErrorClass="has-error" cssClass="form-control col-sm-6" path="endereco.numero" />
-					</div>
-				</div>
-
 
 				<div class="form-group">
 					<div class="col-sm-offset-2   col-sm-4">

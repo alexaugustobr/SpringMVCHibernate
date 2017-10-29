@@ -1,39 +1,25 @@
 package vc.com.cartorio.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.Valid;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonRootName;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "Cartorio")
-@JsonInclude(value = Include.NON_NULL)
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//@JsonInclude(value = Include.NON_NULL)
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 //@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="id")
 //@JsonTypeInfo(include=As.WRAPPER_OBJECT, use=com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME)
 //@JsonTypeName("cartorio")
@@ -54,21 +40,25 @@ public class Cartorio implements Serializable {
 	@NotEmpty
 	private String nome;
 
-	@Valid
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "cartorio", cascade = CascadeType.ALL)
+//	@Valid
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cartorio")
 //	@JsonManagedReference
 //	@JsonBackReference
-	@JsonTypeInfo(include=As.EXISTING_PROPERTY, use=com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME)
+//	@JsonTypeInfo(include=As.EXISTING_PROPERTY, use=com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME)
 	//se precisar com @type
 	//@JsonTypeInfo(include=As.PROPERTY, use=com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME)
-	private Endereco endereco;
-
-	public Endereco getEndereco() {
-		return endereco;
+	private List<Endereco> enderecos;
+	
+	public List<Endereco> getEnderecos() {
+		return enderecos;
 	}
 
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public int getId() {

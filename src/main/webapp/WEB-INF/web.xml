@@ -7,12 +7,12 @@
 		<extension>xlsx</extension>
 		<mime-type>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</mime-type>
 	</mime-mapping>
-	
+
 	<context-param>
-	    <param-name>contextConfigLocation</param-name>
-	    <param-value>classpath:applicationContext.xml</param-value>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
 	</context-param>
-	
+
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
@@ -52,9 +52,61 @@
 		<servlet-name>DispatcherServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	
-	<session-config>
-		<session-timeout>60</session-timeout>
-	</session-config>
+
+<!-- 	<session-config> -->
+<!-- 		<session-timeout>60</session-timeout> -->
+<!-- 	</session-config> -->
+
+	<servlet>
+		<servlet-name>jersey-serlvet</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+      		<param-name>com.sun.jersey.config.property.packages</param-name>
+      		<param-value>vc.com.cartorio</param-value>
+    	</init-param>
+    	<init-param>
+            <param-name>jersey.config.server.provider.packages</param-name>
+            <param-value>vc.com.cartorio</param-value>
+        </init-param>
+		<init-param>
+			<param-name>jersey.config.server.provider.classnames</param-name>
+			<param-value>
+		        org.glassfish.jersey.message.filtering.SelectableEntityFilteringFeature,
+		        org.glassfish.jersey.jackson.JacksonFeature
+	    	</param-value>
+		</init-param>
+		<init-param>
+			<param-name>jersey.config.entityFiltering.selectable.query</param-name>
+			<param-value>select</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>jersey-serlvet</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+
+<!-- <servlet> -->
+<!-- 	<servlet-name>Spring MVC Dispatcher Servlet</servlet-name> -->
+<!-- 	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> -->
+<!-- 	<load-on-startup>1</load-on-startup> -->
+<!-- </servlet> -->
+<!-- <servlet-mapping> -->
+<!-- 	<servlet-name>Spring MVC Dispatcher Servlet</servlet-name> -->
+<!-- 	<url-pattern>/</url-pattern> -->
+<!-- </servlet-mapping> -->
+
+<!-- <servlet> -->
+<!-- 	<servlet-name>jersey-serlvet</servlet-name> -->
+<!-- 	<servlet-class> -->
+<!-- 		org.glassfish.jersey.servlet.ServletContainer -->
+<!-- 	</servlet-class> -->
+<!-- 	<load-on-startup>2</load-on-startup> -->
+<!-- </servlet> -->
+<!-- <servlet-mapping> -->
+<!-- 	<servlet-name>jersey-serlvet</servlet-name> -->
+<!-- 	<url-pattern>/rest/*</url-pattern> -->
+<!-- </servlet-mapping> -->
 
 </web-app>
