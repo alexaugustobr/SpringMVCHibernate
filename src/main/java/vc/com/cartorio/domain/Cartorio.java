@@ -14,6 +14,7 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -47,6 +48,7 @@ public class Cartorio implements Serializable {
 //	@JsonTypeInfo(include=As.EXISTING_PROPERTY, use=com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME)
 	//se precisar com @type
 	//@JsonTypeInfo(include=As.PROPERTY, use=com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME)
+//	@JsonIgnore
 	private List<Endereco> enderecos;
 	
 	public List<Endereco> getEnderecos() {

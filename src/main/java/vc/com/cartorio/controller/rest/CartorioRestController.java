@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.github.bohnman.squiggly.Squiggly;
+import com.github.bohnman.squiggly.util.SquigglyUtils;
 
 import vc.com.cartorio.domain.Cartorio;
 import vc.com.cartorio.domain.Endereco;
@@ -27,7 +29,7 @@ public class CartorioRestController {
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 
-	@RequestMapping(value = "/cartorios", method = RequestMethod.GET, produces = { "application/json" })
+	@RequestMapping(value = "/rest/cartorios", method = RequestMethod.GET, produces = { "application/json" })
 	public List<Cartorio> todos() {
 //		List<Cartorio> cartorios = new ArrayList<Cartorio>();
 
@@ -42,7 +44,7 @@ public class CartorioRestController {
 		return cartorioService.listarCartorios();
 	}
 
-	@RequestMapping(value = "/enderecos", method = RequestMethod.GET, produces = { "application/json" })
+	@RequestMapping(value = "/rest/enderecos", method = RequestMethod.GET, produces = { "application/json" })
 	public List<Endereco> todosE() {
 		// List<Endereco> enderecos = new ArrayList<Endereco>();
 		//
@@ -59,19 +61,10 @@ public class CartorioRestController {
 	}
 
 	@RequestMapping(value = "/cartorios-string", method = RequestMethod.GET, produces = { "application/json" })
-	public String todosS() throws JsonProcessingException {
-
-		ObjectMapper mapper = new ObjectMapper();
+	public String todosS(String fields) throws JsonProcessingException {
 		
-		mapper.enable(SerializationFeature.INDENT_OUTPUT);
-		mapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
-		
-		//String rootName = Cartorio.class.getAnnotation(JsonRootName.class).value();
-		
-		String json = mapper.writer().withRootName("cartorios").writeValueAsString(cartorioService.listarCartorios());
-		
-
-		return json;
+		ObjectMapper mapper = Squiggly.init(new ObjectMapper(), fields);
+		return SquigglyUtils.stringify(mapper, cartorioService.listarCartorios());
 	}
 
 }
